@@ -1,520 +1,720 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-  <!-- Primary Meta Tags -->
-  <!-- TODO: Replace with your paper title and author names -->
-  <meta name="title" content="PAPER_TITLE - AUTHOR_NAMES">
-  <!-- TODO: Write a compelling 150-160 character description of your research -->
-  <meta name="description" content="BRIEF_DESCRIPTION_OF_YOUR_RESEARCH_CONTRIBUTION_AND_FINDINGS">
-  <!-- TODO: Add 5-10 relevant keywords for your research area -->
-  <meta name="keywords" content="KEYWORD1, KEYWORD2, KEYWORD3, machine learning, computer vision, AI">
-  <!-- TODO: List all authors -->
-  <meta name="author" content="FIRST_AUTHOR_NAME, SECOND_AUTHOR_NAME">
-  <meta name="robots" content="index, follow">
-  <meta name="language" content="English">
-  
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="article">
-  <!-- TODO: Replace with your institution or lab name -->
-  <meta property="og:site_name" content="INSTITUTION_OR_LAB_NAME">
-  <!-- TODO: Same as paper title above -->
-  <meta property="og:title" content="PAPER_TITLE">
-  <!-- TODO: Same as description above -->
-  <meta property="og:description" content="BRIEF_DESCRIPTION_OF_YOUR_RESEARCH_CONTRIBUTION_AND_FINDINGS">
-  <!-- TODO: Replace with your actual website URL -->
-  <meta property="og:url" content="https://YOUR_DOMAIN.com/YOUR_PROJECT_PAGE">
-  <!-- TODO: Create a 1200x630px preview image and update path -->
-  <meta property="og:image" content="https://YOUR_DOMAIN.com/static/images/social_preview.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="PAPER_TITLE - Research Preview">
-  <meta property="article:published_time" content="2024-01-01T00:00:00.000Z">
-  <meta property="article:author" content="FIRST_AUTHOR_NAME">
-  <meta property="article:section" content="Research">
-  <meta property="article:tag" content="KEYWORD1">
-  <meta property="article:tag" content="KEYWORD2">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Explainable Audio Deepfake Detection — Demo</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0a0c10;
+      --surface: #12151c;
+      --surface2: #1a1f2b;
+      --border: #252b38;
+      --accent: #00e5a0;
+      --accent2: #ff4d6d;
+      --accent3: #6c8fff;
+      --text: #e8eaf0;
+      --muted: #7a8296;
+      --mono: 'IBM Plex Mono', monospace;
+      --sans: 'DM Sans', sans-serif;
+      --display: 'Syne', sans-serif;
+    }
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <!-- TODO: Replace with your lab/institution Twitter handle -->
-  <meta name="twitter:site" content="@YOUR_TWITTER_HANDLE">
-  <!-- TODO: Replace with first author's Twitter handle -->
-  <meta name="twitter:creator" content="@AUTHOR_TWITTER_HANDLE">
-  <!-- TODO: Same as paper title above -->
-  <meta name="twitter:title" content="PAPER_TITLE">
-  <!-- TODO: Same as description above -->
-  <meta name="twitter:description" content="BRIEF_DESCRIPTION_OF_YOUR_RESEARCH_CONTRIBUTION_AND_FINDINGS">
-  <!-- TODO: Same as social preview image above -->
-  <meta name="twitter:image" content="https://YOUR_DOMAIN.com/static/images/social_preview.png">
-  <meta name="twitter:image:alt" content="PAPER_TITLE - Research Preview">
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  <!-- Academic/Research Specific -->
-  <meta name="citation_title" content="PAPER_TITLE">
-  <meta name="citation_author" content="FIRST_AUTHOR_LAST, FIRST_AUTHOR_FIRST">
-  <meta name="citation_author" content="SECOND_AUTHOR_LAST, SECOND_AUTHOR_FIRST">
-  <meta name="citation_publication_date" content="2024">
-  <meta name="citation_conference_title" content="CONFERENCE_NAME">
-  <meta name="citation_pdf_url" content="https://YOUR_DOMAIN.com/static/pdfs/paper.pdf">
-  
-  <!-- Additional SEO -->
-  <meta name="theme-color" content="#2563eb">
-  <meta name="msapplication-TileColor" content="#2563eb">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  
-  <!-- Preconnect for performance -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://ajax.googleapis.com">
-  <link rel="preconnect" href="https://documentcloud.adobe.com">
-  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
+    /* ── Grid noise overlay ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,229,160,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,160,.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
 
-  <!-- TODO: Replace with your paper title and authors -->
-  <title>PAPER_TITLE - AUTHOR_NAMES | Academic Research</title>
-  
-  <!-- Favicon and App Icons -->
-  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
-  <link rel="apple-touch-icon" href="static/images/favicon.ico">
-  
-  <!-- Critical CSS - Load synchronously -->
-  <link rel="stylesheet" href="static/css/bulma.min.css">
-  <link rel="stylesheet" href="static/css/index.css">
-  
-  <!-- Non-critical CSS - Load asynchronously -->
-  <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="static/css/fontawesome.all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  
-  <!-- Fallback for browsers that don't support preload -->
-  <noscript>
-    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
-    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
-    <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-  </noscript>
-  
-  <!-- Fonts - Optimized loading -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <!-- Defer non-critical JavaScript -->
-  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script defer src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
-  <script defer src="static/js/fontawesome.all.min.js"></script>
-  <script defer src="static/js/bulma-carousel.min.js"></script>
-  <script defer src="static/js/bulma-slider.min.js"></script>
-  <script defer src="static/js/index.js"></script>
-  
-  <!-- Structured Data for Academic Papers -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "ScholarlyArticle",
-    "headline": "PAPER_TITLE",
-    "description": "BRIEF_DESCRIPTION_OF_YOUR_RESEARCH_CONTRIBUTION_AND_FINDINGS",
-    "author": [
-      {
-        "@type": "Person",
-        "name": "FIRST_AUTHOR_NAME",
-        "affiliation": {
-          "@type": "Organization",
-          "name": "INSTITUTION_NAME"
-        }
-      },
-      {
-        "@type": "Person",
-        "name": "SECOND_AUTHOR_NAME",
-        "affiliation": {
-          "@type": "Organization",
-          "name": "INSTITUTION_NAME"
-        }
-      }
-    ],
-    "datePublished": "2024-01-01",
-    "publisher": {
-      "@type": "Organization",
-      "name": "CONFERENCE_OR_JOURNAL_NAME"
-    },
-    "url": "https://YOUR_DOMAIN.com/YOUR_PROJECT_PAGE",
-    "image": "https://YOUR_DOMAIN.com/static/images/social_preview.png",
-    "keywords": ["KEYWORD1", "KEYWORD2", "KEYWORD3", "machine learning", "computer vision"],
-    "abstract": "FULL_ABSTRACT_TEXT_HERE",
-    "citation": "BIBTEX_CITATION_HERE",
-    "isAccessibleForFree": true,
-    "license": "https://creativecommons.org/licenses/by/4.0/",
-    "mainEntity": {
-      "@type": "WebPage",
-      "@id": "https://YOUR_DOMAIN.com/YOUR_PROJECT_PAGE"
-    },
-    "about": [
-      {
-        "@type": "Thing",
-        "name": "RESEARCH_AREA_1"
-      },
-      {
-        "@type": "Thing", 
-        "name": "RESEARCH_AREA_2"
-      }
-    ]
-  }
-  </script>
-  
-  <!-- Website/Organization Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "INSTITUTION_OR_LAB_NAME",
-    "url": "https://YOUR_INSTITUTION_WEBSITE.com",
-    "logo": "https://YOUR_DOMAIN.com/static/images/favicon.ico",
-    "sameAs": [
-      "https://twitter.com/YOUR_TWITTER_HANDLE",
-      "https://github.com/YOUR_GITHUB_USERNAME"
-    ]
-  }
-  </script>
+    /* ── Header ── */
+    header {
+      position: relative;
+      padding: 72px 0 56px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+    }
+    header::after {
+      content: '';
+      position: absolute;
+      left: 50%; bottom: -1px;
+      transform: translateX(-50%);
+      width: 200px; height: 2px;
+      background: var(--accent);
+    }
+    .glow-orb {
+      position: absolute;
+      top: -120px; left: 50%;
+      transform: translateX(-50%);
+      width: 600px; height: 300px;
+      background: radial-gradient(ellipse at center, rgba(0,229,160,.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .tag {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid rgba(0,229,160,.3);
+      padding: 4px 12px;
+      border-radius: 2px;
+      margin-bottom: 20px;
+      background: rgba(0,229,160,.04);
+    }
+
+    h1 {
+      font-family: var(--display);
+      font-size: clamp(28px, 5vw, 52px);
+      font-weight: 800;
+      line-height: 1.1;
+      max-width: 800px;
+      margin: 0 auto 16px;
+      letter-spacing: -.02em;
+    }
+    h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .authors {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 15px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .venue {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--accent3);
+      letter-spacing: .08em;
+    }
+
+    .links {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 9px 22px;
+      border-radius: 3px;
+      border: 1px solid;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .btn-primary { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 600; }
+    .btn-primary:hover { background: #00ffb3; }
+    .btn-outline { color: var(--text); border-color: var(--border); background: transparent; }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── Main layout ── */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* ── Section headings ── */
+    .section { margin-top: 72px; }
+    .section-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-family: var(--display);
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .section-desc {
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 640px;
+      margin-bottom: 36px;
+    }
+
+    /* ── Abstract ── */
+    .abstract-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      padding: 28px 32px;
+      border-radius: 4px;
+      font-size: 15px;
+      line-height: 1.8;
+      color: #c8cad4;
+    }
+
+    /* ── Taxonomy tabs ── */
+    .tab-bar {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+    .tab {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: .05em;
+      padding: 8px 18px;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .tab:hover { color: var(--text); border-color: #3a4155; }
+    .tab.active {
+      background: rgba(0,229,160,.1);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ── Sample grid ── */
+    .samples-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+    }
+
+    .sample-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 20px 22px;
+      transition: border-color .2s, transform .2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .sample-card:hover {
+      border-color: rgba(0,229,160,.4);
+      transform: translateY(-2px);
+    }
+    .sample-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+    }
+    .artefact-spectral .sample-card::before { background: linear-gradient(90deg, var(--accent), transparent); }
+    .artefact-temporal .sample-card::before { background: linear-gradient(90deg, var(--accent3), transparent); }
+    .artefact-prosodic .sample-card::before { background: linear-gradient(90deg, var(--accent2), transparent); }
+    .artefact-formant  .sample-card::before { background: linear-gradient(90deg, #f0c040, transparent); }
+    .artefact-glottal  .sample-card::before { background: linear-gradient(90deg, #c084fc, transparent); }
+
+    .sample-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .artefact-badge {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 2px;
+    }
+    .badge-spectral { background: rgba(0,229,160,.12); color: var(--accent); }
+    .badge-temporal  { background: rgba(108,143,255,.12); color: var(--accent3); }
+    .badge-prosodic  { background: rgba(255,77,109,.12);  color: var(--accent2); }
+    .badge-formant   { background: rgba(240,192,64,.12);  color: #f0c040; }
+    .badge-glottal   { background: rgba(192,132,252,.12); color: #c084fc; }
+
+    .sample-id {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .prompt-text {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #c8cad4;
+      margin-bottom: 6px;
+      font-style: italic;
+    }
+
+    .model-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .model-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .dot-real { background: var(--accent); }
+    .dot-fake { background: var(--accent2); }
+
+    .audio-wrap { margin-top: 14px; }
+    audio {
+      width: 100%;
+      height: 32px;
+      border-radius: 3px;
+      outline: none;
+    }
+    audio::-webkit-media-controls-panel { background: var(--surface2); }
+
+    /* Label row below audio */
+    .audio-labels {
+      display: flex;
+      gap: 14px;
+      margin-top: 10px;
+    }
+    .audio-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .label-chip {
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 2px;
+      border: 1px solid;
+    }
+    .chip-real  { color: var(--accent); border-color: rgba(0,229,160,.3); }
+    .chip-spoof { color: var(--accent2); border-color: rgba(255,77,109,.3); }
+
+    /* explanation pill */
+    .explanation-toggle {
+      margin-top: 14px;
+      width: 100%;
+      background: none;
+      border: 1px dashed var(--border);
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .05em;
+      padding: 7px 0;
+      cursor: pointer;
+      border-radius: 3px;
+      transition: all .2s;
+    }
+    .explanation-toggle:hover { border-color: var(--accent3); color: var(--accent3); }
+    .explanation-box {
+      display: none;
+      margin-top: 10px;
+      padding: 12px 14px;
+      background: var(--surface2);
+      border-radius: 3px;
+      font-size: 13px;
+      color: #a0a8bb;
+      line-height: 1.6;
+      border-left: 2px solid var(--accent3);
+    }
+    .explanation-box.open { display: block; }
+
+    /* ── Tab panel visibility ── */
+    .artefact-panel { display: none; }
+    .artefact-panel.active { display: block; }
+
+    /* ── Upload placeholder ── */
+    .upload-section {
+      background: var(--surface);
+      border: 1px dashed rgba(0,229,160,.25);
+      border-radius: 6px;
+      padding: 40px;
+      text-align: center;
+      color: var(--muted);
+    }
+    .upload-icon {
+      font-size: 36px;
+      margin-bottom: 12px;
+      opacity: .5;
+    }
+    .upload-section p { font-size: 14px; margin-bottom: 16px; }
+    .upload-section .btn { font-size: 12px; }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 40px 24px;
+      border-top: 1px solid var(--border);
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      position: relative; z-index: 1;
+    }
+    footer a { color: var(--accent3); text-decoration: none; }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    header, .section { animation: fadeUp .5s ease both; }
+    .section:nth-child(2) { animation-delay: .1s; }
+    .section:nth-child(3) { animation-delay: .2s; }
+    .section:nth-child(4) { animation-delay: .3s; }
+
+    @media (max-width: 600px) {
+      header { padding: 48px 20px 40px; }
+      h1 { font-size: 26px; }
+      .samples-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
-
-  <!-- Scroll to Top Button -->
-  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
-    <i class="fas fa-chevron-up"></i>
-  </button>
-
-  <!-- More Works Dropdown -->
-  <div class="more-works-container">
-    <button class="more-works-btn" onclick="toggleMoreWorks()" title="View More Works from Our Lab">
-      <i class="fas fa-flask"></i>
-      More Works
-      <i class="fas fa-chevron-down dropdown-arrow"></i>
-    </button>
-    <div class="more-works-dropdown" id="moreWorksDropdown">
-      <div class="dropdown-header">
-        <h4>More Works from Our Lab</h4>
-        <button class="close-btn" onclick="toggleMoreWorks()">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <div class="works-list">
-        <!-- TODO: Replace with your lab's related works -->
-        <a href="https://arxiv.org/abs/PAPER_ID_1" class="work-item" target="_blank">
-          <div class="work-info">
-            <!-- TODO: Replace with actual paper title -->
-            <h5>Paper Title 1</h5>
-            <!-- TODO: Replace with brief description -->
-            <p>Brief description of the work and its main contribution.</p>
-            <!-- TODO: Replace with venue and year -->
-            <span class="work-venue">Conference/Journal 2024</span>
-          </div>
-          <i class="fas fa-external-link-alt"></i>
-        </a>
-        <!-- TODO: Add more related works or remove extra items -->
-        <a href="https://arxiv.org/abs/PAPER_ID_2" class="work-item" target="_blank">
-          <div class="work-info">
-            <h5>Paper Title 2</h5>
-            <p>Brief description of the work and its main contribution.</p>
-            <span class="work-venue">Conference/Journal 2023</span>
-          </div>
-          <i class="fas fa-external-link-alt"></i>
-        </a>
-        <a href="https://arxiv.org/abs/PAPER_ID_3" class="work-item" target="_blank">
-          <div class="work-info">
-            <h5>Paper Title 3</h5>
-            <p>Brief description of the work and its main contribution.</p>
-            <span class="work-venue">Conference/Journal 2023</span>
-          </div>
-          <i class="fas fa-external-link-alt"></i>
-        </a>
-      </div>
-    </div>
+<!-- ══════════════ HEADER ══════════════ -->
+<header>
+  <div class="glow-orb"></div>
+  <div class="tag">IJCB 2026 · Anonymous Submission</div>
+  <h1>Explainable <em>Audio Deepfake</em> Detection</h1>
+  <p class="authors">Anonymous Authors</p>
+  <p class="venue">Under Review · IJCB 2026</p>
+  <div class="links">
+    <a class="btn btn-primary" href="#">📄 Paper (PDF)</a>
+    <a class="btn btn-outline" href="#">💻 Code</a>
+    <a class="btn btn-outline" href="#">🗃 Dataset</a>
   </div>
+</header>
 
-  <main id="main-content">
-  <section class="hero">
-    <div class="hero-body">
-      <div class="container is-max-desktop">
-        <div class="columns is-centered">
-          <div class="column has-text-centered">
-            <!-- TODO: Replace with your paper title -->
-            <h1 class="title is-1 publication-title">Academic Project Page</h1>
-            <div class="is-size-5 publication-authors">
-              <!-- TODO: Replace with your paper authors and their personal links -->
-              <span class="author-block">
-                <a href="FIRST AUTHOR PERSONAL LINK" target="_blank">First Author</a><sup>*</sup>,</span>
-                <span class="author-block">
-                  <a href="SECOND AUTHOR PERSONAL LINK" target="_blank">Second Author</a><sup>*</sup>,</span>
-                  <span class="author-block">
-                    <a href="THIRD AUTHOR PERSONAL LINK" target="_blank">Third Author</a>
-                  </span>
-                  </div>
+<!-- ══════════════ MAIN ══════════════ -->
+<main>
 
-                  <div class="is-size-5 publication-authors">
-                    <!-- TODO: Replace with your institution and conference/journal info -->
-                    <span class="author-block">Institution Name<br>Conference name and year</span>
-                    <!-- TODO: Remove this line if no equal contribution -->
-                    <span class="eql-cntrb"><small><br><sup>*</sup>Indicates Equal Contribution</small></span>
-                  </div>
-
-                  <div class="column has-text-centered">
-                    <div class="publication-links">
-                         <!-- TODO: Update with your arXiv paper ID -->
-                      <span class="link-block">
-                        <a href="https://arxiv.org/pdf/<ARXIV PAPER ID>.pdf" target="_blank"
-                        class="external-link button is-normal is-rounded is-dark">
-                        <span class="icon">
-                          <i class="fas fa-file-pdf"></i>
-                        </span>
-                        <span>Paper</span>
-                      </a>
-                    </span>
-
-                    <!-- TODO: Add your supplementary material PDF or remove this section -->
-                    <span class="link-block">
-                      <a href="static/pdfs/supplementary_material.pdf" target="_blank"
-                      class="external-link button is-normal is-rounded is-dark">
-                      <span class="icon">
-                        <i class="fas fa-file-pdf"></i>
-                      </span>
-                      <span>Supplementary</span>
-                    </a>
-                  </span>
-
-                  <!-- TODO: Replace with your GitHub repository URL -->
-                  <span class="link-block">
-                    <a href="https://github.com/YOUR REPO HERE" target="_blank"
-                    class="external-link button is-normal is-rounded is-dark">
-                    <span class="icon">
-                      <i class="fab fa-github"></i>
-                    </span>
-                    <span>Code</span>
-                  </a>
-                </span>
-
-                <!-- TODO: Update with your arXiv paper ID -->
-                <span class="link-block">
-                  <a href="https://arxiv.org/abs/<ARXIV PAPER ID>" target="_blank"
-                  class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                    <i class="ai ai-arxiv"></i>
-                  </span>
-                  <span>arXiv</span>
-                </a>
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- Teaser video-->
-<section class="hero teaser">
-  <div class="container is-max-desktop">
-    <div class="hero-body">
-      <!-- TODO: Replace with your teaser video -->
-      <video poster="" id="tree" autoplay controls muted loop height="100%" preload="metadata">
-        <!-- TODO: Add your video file path here -->
-        <source src="static/videos/banner_video.mp4" type="video/mp4">
-      </video>
-      <!-- TODO: Replace with your video description -->
-      <h2 class="subtitle has-text-centered">
-        Aliquam vitae elit ullamcorper tellus egestas pellentesque. Ut lacus tellus, maximus vel lectus at, placerat pretium mi. Maecenas dignissim tincidunt vestibulum. Sed consequat hendrerit nisl ut maximus. 
-      </h2>
-    </div>
-  </div>
-</section>
-<!-- End teaser video -->
-
-<!-- Paper abstract -->
-<section class="section hero is-light">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Abstract</h2>
-        <div class="content has-text-justified">
-          <!-- TODO: Replace with your paper abstract -->
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ullamcorper tellus sed ante aliquam tempus. Etiam porttitor urna feugiat nibh elementum, et tempor dolor mattis. Donec accumsan enim augue, a vulputate nisi sodales sit amet. Proin bibendum ex eget mauris cursus euismod nec et nibh. Maecenas ac gravida ante, nec cursus dui. Vivamus purus nibh, placerat ac purus eget, sagittis vestibulum metus. Sed vestibulum bibendum lectus gravida commodo. Pellentesque auctor leo vitae sagittis suscipit.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- End paper abstract -->
-
-
-<!-- Image carousel -->
-<section class="hero is-small">
-  <div class="hero-body">
-    <div class="container">
-      <div id="results-carousel" class="carousel results-carousel">
-       <div class="item">
-        <!-- TODO: Replace with your research result images -->
-        <img src="static/images/carousel1.jpg" alt="First research result visualization" loading="lazy"/>
-        <!-- TODO: Replace with description of this result -->
-        <h2 class="subtitle has-text-centered">
-          First image description.
-        </h2>
-      </div>
-      <div class="item">
-        <!-- Your image here -->
-        <img src="static/images/carousel2.jpg" alt="Second research result visualization" loading="lazy"/>
-        <h2 class="subtitle has-text-centered">
-          Second image description.
-        </h2>
-      </div>
-      <div class="item">
-        <!-- Your image here -->
-        <img src="static/images/carousel3.jpg" alt="Third research result visualization" loading="lazy"/>
-        <h2 class="subtitle has-text-centered">
-         Third image description.
-       </h2>
-     </div>
-     <div class="item">
-      <!-- Your image here -->
-      <img src="static/images/carousel4.jpg" alt="Fourth research result visualization" loading="lazy"/>
-      <h2 class="subtitle has-text-centered">
-        Fourth image description.
-      </h2>
-    </div>
-  </div>
-</div>
-</div>
-</section>
-<!-- End image carousel -->
-
-
-
-
-<!-- Youtube video -->
-<section class="hero is-small is-light">
-  <div class="hero-body">
-    <div class="container">
-      <!-- Paper video. -->
-      <h2 class="title is-3">Video Presentation</h2>
-      <div class="columns is-centered has-text-centered">
-        <div class="column is-four-fifths">
-          
-          <div class="publication-video">
-            <!-- TODO: Replace with your YouTube video ID -->
-            <iframe src="https://www.youtube.com/embed/JkaxUblCGz0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- End youtube video -->
-
-
-<!-- Video carousel -->
-<section class="hero is-small">
-  <div class="hero-body">
-    <div class="container">
-      <h2 class="title is-3">Another Carousel</h2>
-      <div id="results-carousel" class="carousel results-carousel">
-        <div class="item item-video1">
-          <!-- TODO: Add poster image for better preview -->
-          <video poster="" id="video1" controls muted loop height="100%" preload="metadata">
-            <!-- Your video file here -->
-            <source src="static/videos/carousel1.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-video2">
-          <!-- TODO: Add poster image for better preview -->
-          <video poster="" id="video2" controls muted loop height="100%" preload="metadata">
-            <!-- Your video file here -->
-            <source src="static/videos/carousel2.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-video3">
-          <!-- TODO: Add poster image for better preview -->
-          <video poster="" id="video3" controls muted loop height="100%" preload="metadata">
-            <!-- Your video file here -->
-            <source src="static/videos/carousel3.mp4" type="video/mp4">
-          </video>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- End video carousel -->
-
-
-
-
-
-
-<!-- Paper poster -->
-<section class="hero is-small is-light">
-  <div class="hero-body">
-    <div class="container">
-      <h2 class="title">Poster</h2>
-
-      <!-- TODO: Replace with your poster PDF -->
-      <iframe  src="static/pdfs/sample.pdf" width="100%" height="550">
-          </iframe>
-        
-      </div>
+  <!-- Abstract -->
+  <section class="section">
+    <div class="section-label">Overview</div>
+    <div class="section-title">Abstract</div>
+    <div class="abstract-box">
+      Audio deepfakes — synthetically generated or voice-converted speech — pose a growing threat to speaker verification systems and media integrity. While existing detection systems achieve strong performance, they remain opaque black boxes offering no insight into <em>why</em> a sample is flagged as spoofed. In this work, we present an explainable framework for audio deepfake detection that identifies and categorises specific acoustic artefacts left behind by generative models. Our approach maps detections onto an interpretable artefact taxonomy spanning spectral, temporal, prosodic, formant, and glottal dimensions, providing human-understandable rationale for each prediction. Experiments on [dataset] demonstrate competitive detection performance alongside faithful and interpretable explanations.
+      <br><br>
+      <em style="color:var(--muted); font-size:13px;">↑ Replace with your actual abstract before submission.</em>
     </div>
   </section>
-<!--End paper poster -->
 
+  <!-- Audio Samples -->
+  <section class="section">
+    <div class="section-label">Audio Samples</div>
+    <div class="section-title">Artefact Taxonomy Demo</div>
+    <p class="section-desc">
+      Samples are grouped by the primary acoustic artefact our model identifies. Each card shows the input prompt, bonafide and spoofed audio, and the model's explanation.
+    </p>
 
-
-<!--BibTex citation -->
-  <section class="section" id="BibTeX">
-    <div class="container is-max-desktop content">
-      <div class="bibtex-header">
-        <h2 class="title">BibTeX</h2>
-        <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
-          <i class="fas fa-copy"></i>
-          <span class="copy-text">Copy</span>
-        </button>
-      </div>
-      <pre id="bibtex-code"><code>@article{YourPaperKey2024,
-  title={Your Paper Title Here},
-  author={First Author and Second Author and Third Author},
-  journal={Conference/Journal Name},
-  year={2024},
-  url={https://your-domain.com/your-project-page}
-}</code></pre>
+    <!-- Tabs -->
+    <div class="tab-bar" id="tabs">
+      <button class="tab active" data-panel="spectral">Spectral Artefacts</button>
+      <button class="tab" data-panel="temporal">Temporal Artefacts</button>
+      <button class="tab" data-panel="prosodic">Prosodic Artefacts</button>
+      <button class="tab" data-panel="formant">Formant Artefacts</button>
+      <button class="tab" data-panel="glottal">Glottal Artefacts</button>
     </div>
-</section>
-<!--End BibTex citation -->
 
+    <!-- ── Spectral ── -->
+    <div class="artefact-panel artefact-spectral active" id="panel-spectral">
+      <div class="samples-grid">
 
-  <footer class="footer">
-  <div class="container">
-    <div class="columns is-centered">
-      <div class="column is-8">
-        <div class="content">
-
-          <p>
-            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
-            You are free to borrow the source code of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
-            Commons Attribution-ShareAlike 4.0 International License</a>.
-          </p>
-
+        <div class="sample-card">
+          <div class="sample-meta">
+            <span class="artefact-badge badge-spectral">Spectral</span>
+            <span class="sample-id">S-001</span>
+          </div>
+          <p class="prompt-text">"The quick brown fox jumps over the lazy dog."</p>
+          <div class="audio-labels">
+            <span class="audio-label"><span class="label-chip chip-real">Bonafide</span></span>
+          </div>
+          <div class="audio-wrap">
+            <!-- Replace src with actual audio file path, e.g. audios/spectral/s001_real.wav -->
+            <audio controls><source src="audios/spectral/s001_real.wav" type="audio/wav">Your browser does not support audio.</audio>
+          </div>
+          <div class="audio-labels" style="margin-top:10px;">
+            <span class="audio-label"><span class="label-chip chip-spoof">Spoof</span></span>
+          </div>
+          <div class="audio-wrap">
+            <audio controls><source src="audios/spectral/s001_spoof.wav" type="audio/wav">Your browser does not support audio.</audio>
+          </div>
+          <button class="explanation-toggle" onclick="toggleExplanation(this)">▾ Show Explanation</button>
+          <div class="explanation-box">
+            Unnatural spectral flatness detected in the 4–8 kHz band. The vocoder produces overly smooth high-frequency harmonics inconsistent with natural glottal excitation. Confidence: <strong style="color:var(--accent)">94.2%</strong>
+          </div>
         </div>
+
+        <div class="sample-card">
+          <div class="sample-meta">
+            <span class="artefact-badge badge-spectral">Spectral</span>
+            <span class="sample-id">S-002</span>
+          </div>
+          <p class="prompt-text">"She sells sea shells by the sea shore."</p>
+          <div class="audio-labels">
+            <span class="audio-label"><span class="label-chip chip-real">Bonafide</span></span>
+          </div>
+          <div class="audio-wrap">
+            <audio controls><source src="audios/spectral/s002_real.wav" type="audio/wav">Your browser does not support audio.</audio>
+          </div>
+          <div class="audio-labels" style="margin-top:10px;">
+            <span class="audio-label"><span class="label-chip chip-spoof">Spoof</span></span>
+          </div>
+          <div class="audio-wrap">
+            <audio controls><source src="audios/spectral/s002_spoof.wav" type="audio/wav">Your browser does not support audio.</audio>
+          </div>
+          <button class="explanation-toggle" onclick="toggleExplanation(this)">▾ Show Explanation</button>
+          <div class="explanation-box">
+            Periodic spectral artefact at ~6.4 kHz suggests neural vocoder phase discontinuities. The sibilant /s/ shows reduced stochastic variability typical of TTS oversmoothing. Confidence: <strong style="color:var(--accent)">91.7%</strong>
+          </div>
+        </div>
+
+        <div class="sample-card">
+          <div class="sample-meta">
+            <span class="artefact-badge badge-spectral">Spectral</span>
+            <span class="sample-id">S-003</span>
+          </div>
+          <p class="prompt-text">"How much wood would a woodchuck chuck?"</p>
+          <div class="audio-labels">
+            <span class="audio-label"><span class="label-chip chip-real">Bonafide</span></span>
+          </div>
+          <div class="audio-wrap">
+            <audio controls><source src="audios/spectral/s003_real.wav" type="audio/wav">Your browser does not support audio.</audio>
+          </div>
+          <div class="audio-labels" style="margin-top:10px;">
+            <span class="audio-label"><span class="label-chip chip-spoof">Spoof</span></span>
+          </div>
+          <div class="audio-wrap">
+            <audio controls><source src="audios/spectral/s003_spoof.wav" type="audio/wav">Your browser does not support audio.</audio>
+          </div>
+          <button class="explanation-toggle" onclick="toggleExplanation(this)">▾ Show Explanation</button>
+          <div class="explanation-box">
+            Mel-spectrogram shows grid-like aliasing pattern at frame boundaries — a known artefact of WaveNet-style autoregressive decoders. Confidence: <strong style="color:var(--accent)">88.9%</strong>
+          </div>
+        </div>
+
       </div>
     </div>
-  </div>
+
+    <!-- ── Temporal ── -->
+    <div class="artefact-panel artefact-temporal" id="panel-temporal">
+      <div class="samples-grid">
+
+        <div class="sample-card">
+          <div class="sample-meta">
+            <span class="artefact-badge badge-temporal">Temporal</span>
+            <span class="sample-id">T-001</span>
+          </div>
+          <p class="prompt-text">"Please call Stella, ask her to bring these things."</p>
+          <div class="audio-labels">
+            <span class="audio-label"><span class="label-chip chip-real">Bonafide</span></span>
+          </div>
+          <div class="audio-wrap">
+            <audio controls><source src="audios/temporal/t001_real.wav" type="audio/wav">Your browser does not support audio.</audio>
+          </div>
+          <div class="audio-labels" style="margin-top:10px;">
+            <span class="audio-label"><span class="label-chip chip-spoof">Spoof</span></span>
+          </div>
+          <div class="audio-wrap">
+            <audio controls><source src="audios/temporal/t001_spoof.wav" type="audio/wav">Your browser does not support audio.</audio>
+          </div>
+          <button class="explanation-toggle" onclick="toggleExplanation(this)">▾ Show Explanation</button>
+          <div class="explanation-box">
+            Unnatural inter-phoneme pause durations detected at word boundaries. The rhythm model produces overly uniform inter-word gaps that deviate from natural speech rhythm distributions. Confidence: <strong style="color:var(--accent3)">89.5%</strong>
+          </div>
+        </div>
+
+        <div class="sample-card">
+          <div class="sample-meta">
+            <span class="artefact-badge badge-temporal">Temporal</span>
+            <span class="sample-id">T-002</span>
+          </div>
+          <p class="prompt-text">"North winds prevail in January."</p>
+          <div class="audio-labels">
+            <span class="audio-label"><span class="label-chip chip-real">Bonafide</span></span>
+          </div>
+          <div class="audio-wrap">
+            <audio controls><source src="audios/temporal/t002_real.wav" type="audio/wav">Your browser does not support audio.</audio>
+          </div>
+          <div class="audio-labels" style="margin-top:10px;">
+            <span class="audio-label"><span class="label-chip chip-spoof">Spoof</span></span>
+          </div>
+          <div class="audio-wrap">
+            <audio controls><source src="audios/temporal/t002_spoof.wav" type="audio/wav">Your browser does not support audio.</audio>
+          </div>
+          <button class="explanation-toggle" onclick="toggleExplanation(this)">▾ Show Explanation</button>
+          <div class="explanation-box">
+            Micro-temporal jitter absent in the spoofed sample. Natural speech exhibits ~2–4 ms variability in voiced segment durations; synthesised sample shows near-zero variance. Confidence: <strong style="color:var(--accent3)">86.1%</strong>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── Prosodic ── -->
+    <div class="artefact-panel artefact-prosodic" id="panel-prosodic">
+      <div class="samples-grid">
+
+        <div class="sample-card">
+          <div class="sample-meta">
+            <span class="artefact-badge badge-prosodic">Prosodic</span>
+            <span class="sample-id">P-001</span>
+          </div>
+          <p class="prompt-text">"I can't believe you actually said that to her!"</p>
+          <div class="audio-labels">
+            <span class="audio-label"><span class="label-chip chip-real">Bonafide</span></span>
+          </div>
+          <div class="audio-wrap">
+            <audio controls><source src="audios/prosodic/p001_real.wav" type="audio/wav">Your browser does not support audio.</audio>
+          </div>
+          <div class="audio-labels" style="margin-top:10px;">
+            <span class="audio-label"><span class="label-chip chip-spoof">Spoof</span></span>
+          </div>
+          <div class="audio-wrap">
+            <audio controls><source src="audios/prosodic/p001_spoof.wav" type="audio/wav">Your browser does not support audio.</audio>
+          </div>
+          <button class="explanation-toggle" onclick="toggleExplanation(this)">▾ Show Explanation</button>
+          <div class="explanation-box">
+            Monotonic F0 contour with insufficient emphasis on the focus word "actually". Natural exclamatory utterances show sharp F0 peaks (ΔF0 > 40 Hz) absent in the synthesised version. Confidence: <strong style="color:var(--accent2)">92.3%</strong>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── Formant ── -->
+    <div class="artefact-panel artefact-formant" id="panel-formant">
+      <div class="samples-grid">
+
+        <div class="sample-card">
+          <div class="sample-meta">
+            <span class="artefact-badge badge-formant">Formant</span>
+            <span class="sample-id">F-001</span>
+          </div>
+          <p class="prompt-text">"Are you going to the market this evening?"</p>
+          <div class="audio-labels">
+            <span class="audio-label"><span class="label-chip chip-real">Bonafide</span></span>
+          </div>
+          <div class="audio-wrap">
+            <audio controls><source src="audios/formant/f001_real.wav" type="audio/wav">Your browser does not support audio.</audio>
+          </div>
+          <div class="audio-labels" style="margin-top:10px;">
+            <span class="audio-label"><span class="label-chip chip-spoof">Spoof</span></span>
+          </div>
+          <div class="audio-wrap">
+            <audio controls><source src="audios/formant/f001_spoof.wav" type="audio/wav">Your browser does not support audio.</audio>
+          </div>
+          <button class="explanation-toggle" onclick="toggleExplanation(this)">▾ Show Explanation</button>
+          <div class="explanation-box">
+            F2–F3 formant transitions are unnaturally abrupt during vowel-to-consonant coarticulation. The acoustic model does not reproduce the continuous formant movement characteristic of natural vocal tract dynamics. Confidence: <strong style="color:#f0c040">87.4%</strong>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── Glottal ── -->
+    <div class="artefact-panel artefact-glottal" id="panel-glottal">
+      <div class="samples-grid">
+
+        <div class="sample-card">
+          <div class="sample-meta">
+            <span class="artefact-badge badge-glottal">Glottal</span>
+            <span class="sample-id">G-001</span>
+          </div>
+          <p class="prompt-text">"The sun rises in the east every morning."</p>
+          <div class="audio-labels">
+            <span class="audio-label"><span class="label-chip chip-real">Bonafide</span></span>
+          </div>
+          <div class="audio-wrap">
+            <audio controls><source src="audios/glottal/g001_real.wav" type="audio/wav">Your browser does not support audio.</audio>
+          </div>
+          <div class="audio-labels" style="margin-top:10px;">
+            <span class="audio-label"><span class="label-chip chip-spoof">Spoof</span></span>
+          </div>
+          <div class="audio-wrap">
+            <audio controls><source src="audios/glottal/g001_spoof.wav" type="audio/wav">Your browser does not support audio.</audio>
+          </div>
+          <button class="explanation-toggle" onclick="toggleExplanation(this)">▾ Show Explanation</button>
+          <div class="explanation-box">
+            Missing glottal pulse irregularity (jitter &amp; shimmer). Synthesised glottal waveform is overly periodic; human voices exhibit natural cycle-to-cycle variation (jitter ~0.5–1%) absent here. Confidence: <strong style="color:#c084fc">90.8%</strong>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Upload placeholder -->
+  <section class="section">
+    <div class="section-label">Contribute</div>
+    <div class="section-title">Upload Your Own Sample</div>
+    <p class="section-desc">Try the detector on your own audio — upload a .wav or .mp3 file below.</p>
+    <div class="upload-section">
+      <div class="upload-icon">🎙</div>
+      <p>Audio upload & live demo coming soon.<br>For now, replace the placeholder <code style="color:var(--accent3)">src</code> paths above with your actual audio files.</p>
+      <a class="btn btn-outline" href="#">Learn how to add files →</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer>
+  <p>© 2026 IIT Ropar · Submitted to <a href="#">IJCB 2026</a></p>
+  <p style="margin-top:6px; font-size:11px; opacity:.5;">For correspondence: your.email@iitrpr.ac.in</p>
 </footer>
 
-<!-- Statcounter tracking code -->
-  
-<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+<script>
+  // Tab switching
+  const tabs = document.querySelectorAll('.tab');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.artefact-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('panel-' + tab.dataset.panel).classList.add('active');
+    });
+  });
 
-    <!-- End of Statcounter Code -->
-
-  </body>
-  </html>
+  // Explanation toggle
+  function toggleExplanation(btn) {
+    const box = btn.nextElementSibling;
+    const open = box.classList.toggle('open');
+    btn.textContent = (open ? '▴ Hide' : '▾ Show') + ' Explanation';
+  }
+</script>
+</body>
+</html>
