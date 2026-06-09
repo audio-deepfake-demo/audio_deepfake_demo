@@ -7,402 +7,95 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --bg: #0a0c10;
-      --surface: #12151c;
-      --surface2: #1a1f2b;
-      --border: #252b38;
-      --accent: #00e5a0;
-      --accent2: #ff4d6d;
-      --accent3: #6c8fff;
-      --text: #e8eaf0;
-      --muted: #7a8296;
-      --mono: 'IBM Plex Mono', monospace;
-      --sans: 'DM Sans', sans-serif;
-      --display: 'Syne', sans-serif;
+      --bg:#0a0c10;--surface:#12151c;--surface2:#1a1f2b;--border:#252b38;
+      --accent:#00e5a0;--accent2:#ff4d6d;--accent3:#6c8fff;--accent4:#f0c040;--accent5:#c084fc;
+      --text:#e8eaf0;--muted:#7a8296;
+      --mono:'IBM Plex Mono',monospace;--sans:'DM Sans',sans-serif;--display:'Syne',sans-serif;
     }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--sans);
-      font-size: 16px;
-      line-height: 1.7;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* ── Grid noise overlay ── */
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background-image:
-        linear-gradient(rgba(0,229,160,.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,229,160,.03) 1px, transparent 1px);
-      background-size: 40px 40px;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    /* ── Header ── */
-    header {
-      position: relative;
-      padding: 72px 0 56px;
-      text-align: center;
-      border-bottom: 1px solid var(--border);
-      overflow: hidden;
-    }
-    header::after {
-      content: '';
-      position: absolute;
-      left: 50%; bottom: -1px;
-      transform: translateX(-50%);
-      width: 200px; height: 2px;
-      background: var(--accent);
-    }
-    .glow-orb {
-      position: absolute;
-      top: -120px; left: 50%;
-      transform: translateX(-50%);
-      width: 600px; height: 300px;
-      background: radial-gradient(ellipse at center, rgba(0,229,160,.12) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .tag {
-      display: inline-block;
-      font-family: var(--mono);
-      font-size: 11px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--accent);
-      border: 1px solid rgba(0,229,160,.3);
-      padding: 4px 12px;
-      border-radius: 2px;
-      margin-bottom: 20px;
-      background: rgba(0,229,160,.04);
-    }
-
-    h1 {
-      font-family: var(--display);
-      font-size: clamp(28px, 5vw, 52px);
-      font-weight: 800;
-      line-height: 1.1;
-      max-width: 800px;
-      margin: 0 auto 16px;
-      letter-spacing: -.02em;
-    }
-    h1 em {
-      font-style: normal;
-      color: var(--accent);
-    }
-
-    .authors {
-      font-family: var(--sans);
-      font-weight: 300;
-      font-size: 15px;
-      color: var(--muted);
-      margin-bottom: 8px;
-    }
-    .venue {
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--accent3);
-      letter-spacing: .08em;
-    }
-
-    .links {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 28px;
-      flex-wrap: wrap;
-    }
-    .btn {
-      font-family: var(--mono);
-      font-size: 12px;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      text-decoration: none;
-      padding: 9px 22px;
-      border-radius: 3px;
-      border: 1px solid;
-      cursor: pointer;
-      transition: all .2s;
-    }
-    .btn-primary { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 600; }
-    .btn-primary:hover { background: #00ffb3; }
-    .btn-outline { color: var(--text); border-color: var(--border); background: transparent; }
-    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
-
-    /* ── Main layout ── */
-    main {
-      position: relative;
-      z-index: 1;
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 24px 80px;
-    }
-
-    /* ── Section headings ── */
-    .section { margin-top: 72px; }
-    .section-label {
-      font-family: var(--mono);
-      font-size: 11px;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 8px;
-    }
-    .section-title {
-      font-family: var(--display);
-      font-size: 26px;
-      font-weight: 700;
-      margin-bottom: 12px;
-    }
-    .section-desc {
-      color: var(--muted);
-      font-size: 15px;
-      max-width: 640px;
-      margin-bottom: 36px;
-    }
-
-    /* ── Abstract ── */
-    .abstract-box {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--accent);
-      padding: 28px 32px;
-      border-radius: 4px;
-      font-size: 15px;
-      line-height: 1.8;
-      color: #c8cad4;
-    }
-
-    /* ── Taxonomy tabs ── */
-    .tab-bar {
-      display: flex;
-      gap: 4px;
-      margin-bottom: 32px;
-      flex-wrap: wrap;
-    }
-    .tab {
-      font-family: var(--mono);
-      font-size: 12px;
-      letter-spacing: .05em;
-      padding: 8px 18px;
-      border-radius: 3px;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--muted);
-      cursor: pointer;
-      transition: all .2s;
-    }
-    .tab:hover { color: var(--text); border-color: #3a4155; }
-    .tab.active {
-      background: rgba(0,229,160,.1);
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    /* ── Sample grid ── */
-    .samples-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 16px;
-    }
-
-    .sample-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 20px 22px;
-      transition: border-color .2s, transform .2s;
-      position: relative;
-      overflow: hidden;
-    }
-    .sample-card:hover {
-      border-color: rgba(0,229,160,.4);
-      transform: translateY(-2px);
-    }
-    .sample-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-    }
-    .artefact-spectral .sample-card::before { background: linear-gradient(90deg, var(--accent), transparent); }
-    .artefact-temporal .sample-card::before { background: linear-gradient(90deg, var(--accent3), transparent); }
-    .artefact-prosodic .sample-card::before { background: linear-gradient(90deg, var(--accent2), transparent); }
-    .artefact-formant  .sample-card::before { background: linear-gradient(90deg, #f0c040, transparent); }
-    .artefact-glottal  .sample-card::before { background: linear-gradient(90deg, #c084fc, transparent); }
-
-    .sample-meta {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 12px;
-    }
-    .artefact-badge {
-      font-family: var(--mono);
-      font-size: 10px;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      padding: 3px 9px;
-      border-radius: 2px;
-    }
-    .badge-spectral { background: rgba(0,229,160,.12); color: var(--accent); }
-    .badge-temporal  { background: rgba(108,143,255,.12); color: var(--accent3); }
-    .badge-prosodic  { background: rgba(255,77,109,.12);  color: var(--accent2); }
-    .badge-formant   { background: rgba(240,192,64,.12);  color: #f0c040; }
-    .badge-glottal   { background: rgba(192,132,252,.12); color: #c084fc; }
-
-    .sample-id {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--muted);
-    }
-
-    .prompt-text {
-      font-size: 14px;
-      line-height: 1.6;
-      color: #c8cad4;
-      margin-bottom: 6px;
-      font-style: italic;
-    }
-
-    .model-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 4px;
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--muted);
-    }
-    .model-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-    .dot-real { background: var(--accent); }
-    .dot-fake { background: var(--accent2); }
-
-    .audio-wrap { margin-top: 14px; }
-    audio {
-      width: 100%;
-      height: 32px;
-      border-radius: 3px;
-      outline: none;
-    }
-    audio::-webkit-media-controls-panel { background: var(--surface2); }
-
-    /* Label row below audio */
-    .audio-labels {
-      display: flex;
-      gap: 14px;
-      margin-top: 10px;
-    }
-    .audio-label {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--muted);
-    }
-    .label-chip {
-      font-size: 10px;
-      padding: 2px 7px;
-      border-radius: 2px;
-      border: 1px solid;
-    }
-    .chip-real  { color: var(--accent); border-color: rgba(0,229,160,.3); }
-    .chip-spoof { color: var(--accent2); border-color: rgba(255,77,109,.3); }
-
-    /* explanation pill */
-    .explanation-toggle {
-      margin-top: 14px;
-      width: 100%;
-      background: none;
-      border: 1px dashed var(--border);
-      color: var(--muted);
-      font-family: var(--mono);
-      font-size: 11px;
-      letter-spacing: .05em;
-      padding: 7px 0;
-      cursor: pointer;
-      border-radius: 3px;
-      transition: all .2s;
-    }
-    .explanation-toggle:hover { border-color: var(--accent3); color: var(--accent3); }
-    .explanation-box {
-      display: none;
-      margin-top: 10px;
-      padding: 12px 14px;
-      background: var(--surface2);
-      border-radius: 3px;
-      font-size: 13px;
-      color: #a0a8bb;
-      line-height: 1.6;
-      border-left: 2px solid var(--accent3);
-    }
-    .explanation-box.open { display: block; }
-
-    /* ── Tab panel visibility ── */
-    .artefact-panel { display: none; }
-    .artefact-panel.active { display: block; }
-
-    /* ── Upload placeholder ── */
-    .upload-section {
-      background: var(--surface);
-      border: 1px dashed rgba(0,229,160,.25);
-      border-radius: 6px;
-      padding: 40px;
-      text-align: center;
-      color: var(--muted);
-    }
-    .upload-icon {
-      font-size: 36px;
-      margin-bottom: 12px;
-      opacity: .5;
-    }
-    .upload-section p { font-size: 14px; margin-bottom: 16px; }
-    .upload-section .btn { font-size: 12px; }
-
-    /* ── Footer ── */
-    footer {
-      text-align: center;
-      padding: 40px 24px;
-      border-top: 1px solid var(--border);
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--muted);
-      position: relative; z-index: 1;
-    }
-    footer a { color: var(--accent3); text-decoration: none; }
-
-    /* ── Animations ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    header, .section { animation: fadeUp .5s ease both; }
-    .section:nth-child(2) { animation-delay: .1s; }
-    .section:nth-child(3) { animation-delay: .2s; }
-    .section:nth-child(4) { animation-delay: .3s; }
-
-    @media (max-width: 600px) {
-      header { padding: 48px 20px 40px; }
-      h1 { font-size: 26px; }
-      .samples-grid { grid-template-columns: 1fr; }
-    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.7;min-height:100vh;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,229,160,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,160,.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    header{position:relative;padding:72px 24px 56px;text-align:center;border-bottom:1px solid var(--border);overflow:hidden}
+    header::after{content:'';position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);width:200px;height:2px;background:var(--accent)}
+    .glow-orb{position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:600px;height:300px;background:radial-gradient(ellipse at center,rgba(0,229,160,.12) 0%,transparent 70%);pointer-events:none}
+    .tag{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(0,229,160,.3);padding:4px 12px;border-radius:2px;margin-bottom:20px;background:rgba(0,229,160,.04)}
+    h1{font-family:var(--display);font-size:clamp(26px,5vw,50px);font-weight:800;line-height:1.1;max-width:820px;margin:0 auto 16px;letter-spacing:-.02em}
+    h1 em{font-style:normal;color:var(--accent)}
+    .authors{font-weight:300;font-size:15px;color:var(--muted);margin-bottom:6px}
+    .venue{font-family:var(--mono);font-size:12px;color:var(--accent3);letter-spacing:.08em}
+    .links{display:flex;justify-content:center;gap:12px;margin-top:28px;flex-wrap:wrap}
+    .btn{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;padding:9px 22px;border-radius:3px;border:1px solid;cursor:pointer;transition:all .2s;display:inline-block}
+    .btn-primary{background:var(--accent);color:#000;border-color:var(--accent);font-weight:600}
+    .btn-primary:hover{background:#00ffb3}
+    .btn-outline{color:var(--text);border-color:var(--border);background:transparent}
+    .btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+    main{position:relative;z-index:1;max-width:1140px;margin:0 auto;padding:0 24px 80px}
+    .section{margin-top:72px}
+    .section-label{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+    .section-title{font-family:var(--display);font-size:26px;font-weight:700;margin-bottom:10px}
+    .section-desc{color:var(--muted);font-size:15px;max-width:680px;margin-bottom:36px}
+    .abstract-box{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);padding:28px 32px;border-radius:4px;font-size:15px;line-height:1.85;color:#c8cad4}
+    .taxonomy-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:40px}
+    .tax-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:16px 18px;transition:all .2s;border-top:3px solid}
+    .tax-card:hover{transform:translateY(-2px)}
+    .tc-articulation{border-top-color:var(--accent);color:var(--accent)}
+    .tc-linguistic{border-top-color:var(--accent3);color:var(--accent3)}
+    .tc-temporal{border-top-color:var(--accent2);color:var(--accent2)}
+    .tc-signal{border-top-color:var(--accent4);color:var(--accent4)}
+    .tc-spectral{border-top-color:var(--accent5);color:var(--accent5)}
+    .tax-card-name{font-family:var(--display);font-size:13px;font-weight:700;margin-bottom:4px}
+    .tax-card-sub{font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.6}
+    .tab-bar{display:flex;gap:4px;margin-bottom:32px;flex-wrap:wrap}
+    .tab{font-family:var(--mono);font-size:11px;letter-spacing:.05em;padding:8px 16px;border-radius:3px;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:all .2s}
+    .tab:hover{color:var(--text);border-color:#3a4155}
+    .tab[data-cat="articulation"].active{background:rgba(0,229,160,.1);border-color:var(--accent);color:var(--accent)}
+    .tab[data-cat="linguistic"].active{background:rgba(108,143,255,.1);border-color:var(--accent3);color:var(--accent3)}
+    .tab[data-cat="temporal"].active{background:rgba(255,77,109,.1);border-color:var(--accent2);color:var(--accent2)}
+    .tab[data-cat="signal"].active{background:rgba(240,192,64,.1);border-color:var(--accent4);color:var(--accent4)}
+    .tab[data-cat="spectral"].active{background:rgba(192,132,252,.1);border-color:var(--accent5);color:var(--accent5)}
+    .artefact-panel{display:none}
+    .artefact-panel.active{display:block}
+    .samples-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+    .sample-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:20px 22px 18px;transition:border-color .2s,transform .2s;position:relative;overflow:hidden}
+    .sample-card:hover{transform:translateY(-2px)}
+    .cat-articulation .sample-card{border-top:2px solid var(--accent)}
+    .cat-articulation .sample-card:hover{border-color:var(--accent)}
+    .cat-linguistic .sample-card{border-top:2px solid var(--accent3)}
+    .cat-linguistic .sample-card:hover{border-color:var(--accent3)}
+    .cat-temporal .sample-card{border-top:2px solid var(--accent2)}
+    .cat-temporal .sample-card:hover{border-color:var(--accent2)}
+    .cat-signal .sample-card{border-top:2px solid var(--accent4)}
+    .cat-signal .sample-card:hover{border-color:var(--accent4)}
+    .cat-spectral .sample-card{border-top:2px solid var(--accent5)}
+    .cat-spectral .sample-card:hover{border-color:var(--accent5)}
+    .sample-meta{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:10px}
+    .subcategory-badge{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:2px;flex-shrink:0}
+    .badge-articulation{background:rgba(0,229,160,.1);color:var(--accent)}
+    .badge-linguistic{background:rgba(108,143,255,.1);color:var(--accent3)}
+    .badge-temporal{background:rgba(255,77,109,.1);color:var(--accent2)}
+    .badge-signal{background:rgba(240,192,64,.1);color:var(--accent4)}
+    .badge-spectral{background:rgba(192,132,252,.1);color:var(--accent5)}
+    .sample-id{font-family:var(--mono);font-size:10px;color:var(--muted);white-space:nowrap}
+    .prompt-label{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+    .prompt-text{font-size:13.5px;line-height:1.6;color:#c8cad4;font-style:italic;margin-bottom:14px;padding:8px 12px;background:var(--surface2);border-radius:3px;border-left:2px solid var(--border)}
+    .audio-row{margin-bottom:10px}
+    .audio-row-label{display:flex;align-items:center;gap:7px;margin-bottom:5px}
+    .chip{font-family:var(--mono);font-size:10px;padding:2px 8px;border-radius:2px;border:1px solid;letter-spacing:.04em}
+    .chip-real{color:var(--accent);border-color:rgba(0,229,160,.3)}
+    .chip-spoof{color:var(--accent2);border-color:rgba(255,77,109,.3)}
+    audio{width:100%;height:30px;border-radius:3px;outline:none}
+    .explanation-toggle{margin-top:12px;width:100%;background:none;border:1px dashed var(--border);color:var(--muted);font-family:var(--mono);font-size:10px;letter-spacing:.05em;padding:6px 0;cursor:pointer;border-radius:3px;transition:all .2s}
+    .explanation-toggle:hover{border-color:var(--accent3);color:var(--accent3)}
+    .explanation-box{display:none;margin-top:8px;padding:10px 13px;background:var(--surface2);border-radius:3px;font-size:12.5px;color:#a0a8bb;line-height:1.65;border-left:2px solid var(--accent3)}
+    .explanation-box.open{display:block}
+    footer{text-align:center;padding:36px 24px;border-top:1px solid var(--border);font-family:var(--mono);font-size:12px;color:var(--muted);position:relative;z-index:1}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    header,.section{animation:fadeUp .4s ease both}
+    @media(max-width:600px){header{padding:48px 20px 36px}h1{font-size:24px}.samples-grid{grid-template-columns:1fr}.taxonomy-grid{grid-template-columns:1fr 1fr}}
   </style>
 </head>
 <body>
 
-<!-- ══════════════ HEADER ══════════════ -->
 <header>
   <div class="glow-orb"></div>
   <div class="tag">IJCB 2026 · Anonymous Submission</div>
@@ -410,13 +103,12 @@
   <p class="authors">Anonymous Authors</p>
   <p class="venue">Under Review · IJCB 2026</p>
   <div class="links">
-    <a class="btn btn-primary" href="#">📄 Paper (PDF)</a>
-    <a class="btn btn-outline" href="#">💻 Code</a>
-    <a class="btn btn-outline" href="#">🗃 Dataset</a>
+    <a class="btn btn-primary" href="#">Paper (PDF)</a>
+    <a class="btn btn-outline" href="#">Code</a>
+    <a class="btn btn-outline" href="#">Dataset</a>
   </div>
 </header>
 
-<!-- ══════════════ MAIN ══════════════ -->
 <main>
 
   <!-- Abstract -->
@@ -424,296 +116,383 @@
     <div class="section-label">Overview</div>
     <div class="section-title">Abstract</div>
     <div class="abstract-box">
-      Audio deepfakes — synthetically generated or voice-converted speech — pose a growing threat to speaker verification systems and media integrity. While existing detection systems achieve strong performance, they remain opaque black boxes offering no insight into <em>why</em> a sample is flagged as spoofed. In this work, we present an explainable framework for audio deepfake detection that identifies and categorises specific acoustic artefacts left behind by generative models. Our approach maps detections onto an interpretable artefact taxonomy spanning spectral, temporal, prosodic, formant, and glottal dimensions, providing human-understandable rationale for each prediction. Experiments on [dataset] demonstrate competitive detection performance alongside faithful and interpretable explanations.
-      <br><br>
-      <em style="color:var(--muted); font-size:13px;">↑ Replace with your actual abstract before submission.</em>
+      <!-- REPLACE WITH YOUR ACTUAL ABSTRACT -->
+      Audio deepfakes pose a growing threat to speaker verification systems and media integrity. While existing detection systems achieve strong performance, they remain opaque black boxes offering no insight into <em>why</em> a sample is flagged as spoofed. In this work, we present an explainable framework for audio deepfake detection that identifies and categorises specific acoustic artefacts left behind by generative models. Our approach maps detections onto an interpretable artefact taxonomy spanning articulation, linguistic/paralinguistic, temporal/prosodic, signal-level, and spectral/voice-quality dimensions, providing human-understandable rationale for each prediction.
     </div>
   </section>
 
-  <!-- Audio Samples -->
+  <!-- Taxonomy -->
+  <section class="section">
+    <div class="section-label">Artefact Taxonomy</div>
+    <div class="section-title">Five Artefact Categories</div>
+    <p class="section-desc">Our taxonomy organises deepfake artefacts into five perceptually grounded categories, each with subcategories describing how synthesised speech deviates from natural human speech.</p>
+    <div class="taxonomy-grid">
+      <div class="tax-card tc-articulation">
+        <div class="tax-card-name">Articulation Related</div>
+        <div class="tax-card-sub">Incomplete / Poor articulation<br>Slurred speech</div>
+      </div>
+      <div class="tax-card tc-linguistic">
+        <div class="tax-card-name">Linguistic / Paralinguistic</div>
+        <div class="tax-card-sub">Mispronounced words / acronyms / named-entities<br>Word / phrase repetition<br>Unnatural paralinguistic sounds</div>
+      </div>
+      <div class="tax-card tc-temporal">
+        <div class="tax-card-name">Temporal / Prosodic</div>
+        <div class="tax-card-sub">Awkward pauses or word stress<br>Missing natural pauses or breath timing<br>Lack of expressiveness / flat intonation</div>
+      </div>
+      <div class="tax-card tc-signal">
+        <div class="tax-card-name">Signal-Level</div>
+        <div class="tax-card-sub">Background noise (constant / quantization)<br>Impulse noise (click / pop / thud / buzz)</div>
+      </div>
+      <div class="tax-card tc-spectral">
+        <div class="tax-card-name">Spectral / Voice-Quality</div>
+        <div class="tax-card-sub">Muffled voice<br>Unnatural voice timbre<br>Distorted / wobbly voice</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Samples -->
   <section class="section">
     <div class="section-label">Audio Samples</div>
-    <div class="section-title">Artefact Taxonomy Demo</div>
-    <p class="section-desc">
-      Samples are grouped by the primary acoustic artefact our model identifies. Each card shows the input prompt, bonafide and spoofed audio, and the model's explanation.
-    </p>
+    <div class="section-title">Samples by Artefact Category</div>
+    <p class="section-desc">Each card shows the text prompt, a bonafide recording, and a spoofed sample exhibiting the named artefact. Click "Show Explanation" to see what the model detected.</p>
 
-    <!-- Tabs -->
-    <div class="tab-bar" id="tabs">
-      <button class="tab active" data-panel="spectral">Spectral Artefacts</button>
-      <button class="tab" data-panel="temporal">Temporal Artefacts</button>
-      <button class="tab" data-panel="prosodic">Prosodic Artefacts</button>
-      <button class="tab" data-panel="formant">Formant Artefacts</button>
-      <button class="tab" data-panel="glottal">Glottal Artefacts</button>
+    <div class="tab-bar">
+      <button class="tab active" data-cat="articulation">Articulation</button>
+      <button class="tab" data-cat="linguistic">Linguistic / Paralinguistic</button>
+      <button class="tab" data-cat="temporal">Temporal / Prosodic</button>
+      <button class="tab" data-cat="signal">Signal-Level</button>
+      <button class="tab" data-cat="spectral">Spectral / Voice-Quality</button>
     </div>
 
-    <!-- ── Spectral ── -->
-    <div class="artefact-panel artefact-spectral active" id="panel-spectral">
+    <!-- ARTICULATION -->
+    <div class="artefact-panel cat-articulation active" id="panel-articulation">
       <div class="samples-grid">
 
         <div class="sample-card">
           <div class="sample-meta">
-            <span class="artefact-badge badge-spectral">Spectral</span>
-            <span class="sample-id">S-001</span>
+            <span class="subcategory-badge badge-articulation">Incomplete / Poor Articulation</span>
+            <span class="sample-id">ART-001</span>
           </div>
-          <p class="prompt-text">"The quick brown fox jumps over the lazy dog."</p>
-          <div class="audio-labels">
-            <span class="audio-label"><span class="label-chip chip-real">Bonafide</span></span>
+          <div class="prompt-label">Prompt</div>
+          <p class="prompt-text">"I am going to the party tonight."</p>
+          <div class="audio-row">
+            <div class="audio-row-label"><span class="chip chip-real">Bonafide</span></div>
+            <audio controls><source src="audios/articulation/art001_real.wav" type="audio/wav">Your browser does not support audio.</audio>
           </div>
-          <div class="audio-wrap">
-            <!-- Replace src with actual audio file path, e.g. audios/spectral/s001_real.wav -->
-            <audio controls><source src="audios/spectral/s001_real.wav" type="audio/wav">Your browser does not support audio.</audio>
+          <div class="audio-row">
+            <div class="audio-row-label"><span class="chip chip-spoof">Spoof</span></div>
+            <audio controls><source src="audios/articulation/art001_spoof.wav" type="audio/wav">Your browser does not support audio.</audio>
           </div>
-          <div class="audio-labels" style="margin-top:10px;">
-            <span class="audio-label"><span class="label-chip chip-spoof">Spoof</span></span>
-          </div>
-          <div class="audio-wrap">
-            <audio controls><source src="audios/spectral/s001_spoof.wav" type="audio/wav">Your browser does not support audio.</audio>
-          </div>
-          <button class="explanation-toggle" onclick="toggleExplanation(this)">▾ Show Explanation</button>
+          <button class="explanation-toggle" onclick="toggleExp(this)">&#9660; Show Explanation</button>
           <div class="explanation-box">
-            Unnatural spectral flatness detected in the 4–8 kHz band. The vocoder produces overly smooth high-frequency harmonics inconsistent with natural glottal excitation. Confidence: <strong style="color:var(--accent)">94.2%</strong>
+            Words have clear boundaries but some are unintelligible. "Party" is produced with poor articulation, sounding like <em>"pwaworty"</em>. The model flags reduced spectral energy in stop consonant bursts as an artefact of the synthesis model.
           </div>
         </div>
 
         <div class="sample-card">
           <div class="sample-meta">
-            <span class="artefact-badge badge-spectral">Spectral</span>
-            <span class="sample-id">S-002</span>
+            <span class="subcategory-badge badge-articulation">Slurred Speech</span>
+            <span class="sample-id">ART-002</span>
           </div>
-          <p class="prompt-text">"She sells sea shells by the sea shore."</p>
-          <div class="audio-labels">
-            <span class="audio-label"><span class="label-chip chip-real">Bonafide</span></span>
+          <div class="prompt-label">Prompt</div>
+          <p class="prompt-text">"She walked to the store and came back home."</p>
+          <div class="audio-row">
+            <div class="audio-row-label"><span class="chip chip-real">Bonafide</span></div>
+            <audio controls><source src="audios/articulation/art002_real.wav" type="audio/wav">Your browser does not support audio.</audio>
           </div>
-          <div class="audio-wrap">
-            <audio controls><source src="audios/spectral/s002_real.wav" type="audio/wav">Your browser does not support audio.</audio>
+          <div class="audio-row">
+            <div class="audio-row-label"><span class="chip chip-spoof">Spoof</span></div>
+            <audio controls><source src="audios/articulation/art002_spoof.wav" type="audio/wav">Your browser does not support audio.</audio>
           </div>
-          <div class="audio-labels" style="margin-top:10px;">
-            <span class="audio-label"><span class="label-chip chip-spoof">Spoof</span></span>
-          </div>
-          <div class="audio-wrap">
-            <audio controls><source src="audios/spectral/s002_spoof.wav" type="audio/wav">Your browser does not support audio.</audio>
-          </div>
-          <button class="explanation-toggle" onclick="toggleExplanation(this)">▾ Show Explanation</button>
+          <button class="explanation-toggle" onclick="toggleExp(this)">&#9660; Show Explanation</button>
           <div class="explanation-box">
-            Periodic spectral artefact at ~6.4 kHz suggests neural vocoder phase discontinuities. The sibilant /s/ shows reduced stochastic variability typical of TTS oversmoothing. Confidence: <strong style="color:var(--accent)">91.7%</strong>
-          </div>
-        </div>
-
-        <div class="sample-card">
-          <div class="sample-meta">
-            <span class="artefact-badge badge-spectral">Spectral</span>
-            <span class="sample-id">S-003</span>
-          </div>
-          <p class="prompt-text">"How much wood would a woodchuck chuck?"</p>
-          <div class="audio-labels">
-            <span class="audio-label"><span class="label-chip chip-real">Bonafide</span></span>
-          </div>
-          <div class="audio-wrap">
-            <audio controls><source src="audios/spectral/s003_real.wav" type="audio/wav">Your browser does not support audio.</audio>
-          </div>
-          <div class="audio-labels" style="margin-top:10px;">
-            <span class="audio-label"><span class="label-chip chip-spoof">Spoof</span></span>
-          </div>
-          <div class="audio-wrap">
-            <audio controls><source src="audios/spectral/s003_spoof.wav" type="audio/wav">Your browser does not support audio.</audio>
-          </div>
-          <button class="explanation-toggle" onclick="toggleExplanation(this)">▾ Show Explanation</button>
-          <div class="explanation-box">
-            Mel-spectrogram shows grid-like aliasing pattern at frame boundaries — a known artefact of WaveNet-style autoregressive decoders. Confidence: <strong style="color:var(--accent)">88.9%</strong>
+            Word boundaries are merged and blended. The synthesiser fails to produce distinct inter-word silence intervals, causing adjacent phonemes to coalesce in a way uncharacteristic of natural speech.
           </div>
         </div>
 
       </div>
     </div>
 
-    <!-- ── Temporal ── -->
-    <div class="artefact-panel artefact-temporal" id="panel-temporal">
+    <!-- LINGUISTIC -->
+    <div class="artefact-panel cat-linguistic" id="panel-linguistic">
       <div class="samples-grid">
 
         <div class="sample-card">
           <div class="sample-meta">
-            <span class="artefact-badge badge-temporal">Temporal</span>
-            <span class="sample-id">T-001</span>
+            <span class="subcategory-badge badge-linguistic">Mispronounced Words / Acronyms</span>
+            <span class="sample-id">LNG-001</span>
           </div>
-          <p class="prompt-text">"Please call Stella, ask her to bring these things."</p>
-          <div class="audio-labels">
-            <span class="audio-label"><span class="label-chip chip-real">Bonafide</span></span>
+          <div class="prompt-label">Prompt</div>
+          <p class="prompt-text">"The distance is 5 km from here."</p>
+          <div class="audio-row">
+            <div class="audio-row-label"><span class="chip chip-real">Bonafide</span></div>
+            <audio controls><source src="audios/linguistic/lng001_real.wav" type="audio/wav">Your browser does not support audio.</audio>
           </div>
-          <div class="audio-wrap">
-            <audio controls><source src="audios/temporal/t001_real.wav" type="audio/wav">Your browser does not support audio.</audio>
+          <div class="audio-row">
+            <div class="audio-row-label"><span class="chip chip-spoof">Spoof</span></div>
+            <audio controls><source src="audios/linguistic/lng001_spoof.wav" type="audio/wav">Your browser does not support audio.</audio>
           </div>
-          <div class="audio-labels" style="margin-top:10px;">
-            <span class="audio-label"><span class="label-chip chip-spoof">Spoof</span></span>
-          </div>
-          <div class="audio-wrap">
-            <audio controls><source src="audios/temporal/t001_spoof.wav" type="audio/wav">Your browser does not support audio.</audio>
-          </div>
-          <button class="explanation-toggle" onclick="toggleExplanation(this)">▾ Show Explanation</button>
+          <button class="explanation-toggle" onclick="toggleExp(this)">&#9660; Show Explanation</button>
           <div class="explanation-box">
-            Unnatural inter-phoneme pause durations detected at word boundaries. The rhythm model produces overly uniform inter-word gaps that deviate from natural speech rhythm distributions. Confidence: <strong style="color:var(--accent3)">89.5%</strong>
+            "km" is pronounced as literal letters "KM" instead of "kilometers". The model detects a mismatch between the expected prosodic pattern for a unit abbreviation and the produced phoneme sequence.
           </div>
         </div>
 
         <div class="sample-card">
           <div class="sample-meta">
-            <span class="artefact-badge badge-temporal">Temporal</span>
-            <span class="sample-id">T-002</span>
+            <span class="subcategory-badge badge-linguistic">Word / Phrase Repetition</span>
+            <span class="sample-id">LNG-002</span>
           </div>
-          <p class="prompt-text">"North winds prevail in January."</p>
-          <div class="audio-labels">
-            <span class="audio-label"><span class="label-chip chip-real">Bonafide</span></span>
+          <div class="prompt-label">Prompt</div>
+          <p class="prompt-text">"I am going to the party."</p>
+          <div class="audio-row">
+            <div class="audio-row-label"><span class="chip chip-real">Bonafide</span></div>
+            <audio controls><source src="audios/linguistic/lng002_real.wav" type="audio/wav">Your browser does not support audio.</audio>
           </div>
-          <div class="audio-wrap">
-            <audio controls><source src="audios/temporal/t002_real.wav" type="audio/wav">Your browser does not support audio.</audio>
+          <div class="audio-row">
+            <div class="audio-row-label"><span class="chip chip-spoof">Spoof</span></div>
+            <audio controls><source src="audios/linguistic/lng002_spoof.wav" type="audio/wav">Your browser does not support audio.</audio>
           </div>
-          <div class="audio-labels" style="margin-top:10px;">
-            <span class="audio-label"><span class="label-chip chip-spoof">Spoof</span></span>
-          </div>
-          <div class="audio-wrap">
-            <audio controls><source src="audios/temporal/t002_spoof.wav" type="audio/wav">Your browser does not support audio.</audio>
-          </div>
-          <button class="explanation-toggle" onclick="toggleExplanation(this)">▾ Show Explanation</button>
+          <button class="explanation-toggle" onclick="toggleExp(this)">&#9660; Show Explanation</button>
           <div class="explanation-box">
-            Micro-temporal jitter absent in the spoofed sample. Natural speech exhibits ~2–4 ms variability in voiced segment durations; synthesised sample shows near-zero variance. Confidence: <strong style="color:var(--accent3)">86.1%</strong>
+            Unintentional repetition: the output produces <em>"I am going am going to the party"</em>. The model identifies repeated token sequences in the output alignment absent from the reference transcript.
+          </div>
+        </div>
+
+        <div class="sample-card">
+          <div class="sample-meta">
+            <span class="subcategory-badge badge-linguistic">Unnatural Paralinguistic Sounds</span>
+            <span class="sample-id">LNG-003</span>
+          </div>
+          <div class="prompt-label">Prompt</div>
+          <p class="prompt-text">"That is a really great idea."</p>
+          <div class="audio-row">
+            <div class="audio-row-label"><span class="chip chip-real">Bonafide</span></div>
+            <audio controls><source src="audios/linguistic/lng003_real.wav" type="audio/wav">Your browser does not support audio.</audio>
+          </div>
+          <div class="audio-row">
+            <div class="audio-row-label"><span class="chip chip-spoof">Spoof</span></div>
+            <audio controls><source src="audios/linguistic/lng003_spoof.wav" type="audio/wav">Your browser does not support audio.</audio>
+          </div>
+          <button class="explanation-toggle" onclick="toggleExp(this)">&#9660; Show Explanation</button>
+          <div class="explanation-box">
+            Unnatural filler sounds like "huh" or "hmm" are inserted at inappropriate positions. The model detects non-lexical vocalisations with spectral profiles inconsistent with the surrounding phonetic context.
           </div>
         </div>
 
       </div>
     </div>
 
-    <!-- ── Prosodic ── -->
-    <div class="artefact-panel artefact-prosodic" id="panel-prosodic">
+    <!-- TEMPORAL / PROSODIC -->
+    <div class="artefact-panel cat-temporal" id="panel-temporal">
       <div class="samples-grid">
 
         <div class="sample-card">
           <div class="sample-meta">
-            <span class="artefact-badge badge-prosodic">Prosodic</span>
-            <span class="sample-id">P-001</span>
+            <span class="subcategory-badge badge-temporal">Awkward Pauses / Word Stress</span>
+            <span class="sample-id">TMP-001</span>
           </div>
-          <p class="prompt-text">"I can't believe you actually said that to her!"</p>
-          <div class="audio-labels">
-            <span class="audio-label"><span class="label-chip chip-real">Bonafide</span></span>
+          <div class="prompt-label">Prompt</div>
+          <p class="prompt-text">"Hey there! I want to say goodbye."</p>
+          <div class="audio-row">
+            <div class="audio-row-label"><span class="chip chip-real">Bonafide</span></div>
+            <audio controls><source src="audios/temporal/tmp001_real.wav" type="audio/wav">Your browser does not support audio.</audio>
           </div>
-          <div class="audio-wrap">
-            <audio controls><source src="audios/prosodic/p001_real.wav" type="audio/wav">Your browser does not support audio.</audio>
+          <div class="audio-row">
+            <div class="audio-row-label"><span class="chip chip-spoof">Spoof</span></div>
+            <audio controls><source src="audios/temporal/tmp001_spoof.wav" type="audio/wav">Your browser does not support audio.</audio>
           </div>
-          <div class="audio-labels" style="margin-top:10px;">
-            <span class="audio-label"><span class="label-chip chip-spoof">Spoof</span></span>
-          </div>
-          <div class="audio-wrap">
-            <audio controls><source src="audios/prosodic/p001_spoof.wav" type="audio/wav">Your browser does not support audio.</audio>
-          </div>
-          <button class="explanation-toggle" onclick="toggleExplanation(this)">▾ Show Explanation</button>
+          <button class="explanation-toggle" onclick="toggleExp(this)">&#9660; Show Explanation</button>
           <div class="explanation-box">
-            Monotonic F0 contour with insufficient emphasis on the focus word "actually". Natural exclamatory utterances show sharp F0 peaks (ΔF0 > 40 Hz) absent in the synthesised version. Confidence: <strong style="color:var(--accent2)">92.3%</strong>
+            A pause occurs mid-phrase, disrupting natural flow: <em>"Hey there I want to say... goodbye"</em> instead of the expected grouping. The model detects silence at a syntactically implausible position inconsistent with natural speech rhythm.
+          </div>
+        </div>
+
+        <div class="sample-card">
+          <div class="sample-meta">
+            <span class="subcategory-badge badge-temporal">Missing Natural Pauses / Breath Timing</span>
+            <span class="sample-id">TMP-002</span>
+          </div>
+          <div class="prompt-label">Prompt</div>
+          <p class="prompt-text">"She walked in, looked around, and smiled at everyone."</p>
+          <div class="audio-row">
+            <div class="audio-row-label"><span class="chip chip-real">Bonafide</span></div>
+            <audio controls><source src="audios/temporal/tmp002_real.wav" type="audio/wav">Your browser does not support audio.</audio>
+          </div>
+          <div class="audio-row">
+            <div class="audio-row-label"><span class="chip chip-spoof">Spoof</span></div>
+            <audio controls><source src="audios/temporal/tmp002_spoof.wav" type="audio/wav">Your browser does not support audio.</audio>
+          </div>
+          <button class="explanation-toggle" onclick="toggleExp(this)">&#9660; Show Explanation</button>
+          <div class="explanation-box">
+            Overly fluent with no subtle breath moments or micro-pauses at clause boundaries. Natural speech shows consistent breathing patterns absent here, making the output sound rushed and robotic.
+          </div>
+        </div>
+
+        <div class="sample-card">
+          <div class="sample-meta">
+            <span class="subcategory-badge badge-temporal">Lack of Expressiveness / Flat Intonation</span>
+            <span class="sample-id">TMP-003</span>
+          </div>
+          <div class="prompt-label">Prompt</div>
+          <p class="prompt-text">"I cannot believe this is happening right now!"</p>
+          <div class="audio-row">
+            <div class="audio-row-label"><span class="chip chip-real">Bonafide</span></div>
+            <audio controls><source src="audios/temporal/tmp003_real.wav" type="audio/wav">Your browser does not support audio.</audio>
+          </div>
+          <div class="audio-row">
+            <div class="audio-row-label"><span class="chip chip-spoof">Spoof</span></div>
+            <audio controls><source src="audios/temporal/tmp003_spoof.wav" type="audio/wav">Your browser does not support audio.</audio>
+          </div>
+          <button class="explanation-toggle" onclick="toggleExp(this)">&#9660; Show Explanation</button>
+          <div class="explanation-box">
+            Monotonous speaking style with no expressive variation. The F0 contour is nearly flat throughout, lacking the pitch rises expected in exclamatory utterances. Near-zero F0 variance is flagged as a strong spoof indicator.
           </div>
         </div>
 
       </div>
     </div>
 
-    <!-- ── Formant ── -->
-    <div class="artefact-panel artefact-formant" id="panel-formant">
+    <!-- SIGNAL-LEVEL -->
+    <div class="artefact-panel cat-signal" id="panel-signal">
       <div class="samples-grid">
 
         <div class="sample-card">
           <div class="sample-meta">
-            <span class="artefact-badge badge-formant">Formant</span>
-            <span class="sample-id">F-001</span>
+            <span class="subcategory-badge badge-signal">Background Noise / Quantization Noise</span>
+            <span class="sample-id">SIG-001</span>
           </div>
-          <p class="prompt-text">"Are you going to the market this evening?"</p>
-          <div class="audio-labels">
-            <span class="audio-label"><span class="label-chip chip-real">Bonafide</span></span>
+          <div class="prompt-label">Prompt</div>
+          <p class="prompt-text">"The weather today is sunny and warm."</p>
+          <div class="audio-row">
+            <div class="audio-row-label"><span class="chip chip-real">Bonafide</span></div>
+            <audio controls><source src="audios/signal/sig001_real.wav" type="audio/wav">Your browser does not support audio.</audio>
           </div>
-          <div class="audio-wrap">
-            <audio controls><source src="audios/formant/f001_real.wav" type="audio/wav">Your browser does not support audio.</audio>
+          <div class="audio-row">
+            <div class="audio-row-label"><span class="chip chip-spoof">Spoof</span></div>
+            <audio controls><source src="audios/signal/sig001_spoof.wav" type="audio/wav">Your browser does not support audio.</audio>
           </div>
-          <div class="audio-labels" style="margin-top:10px;">
-            <span class="audio-label"><span class="label-chip chip-spoof">Spoof</span></span>
-          </div>
-          <div class="audio-wrap">
-            <audio controls><source src="audios/formant/f001_spoof.wav" type="audio/wav">Your browser does not support audio.</audio>
-          </div>
-          <button class="explanation-toggle" onclick="toggleExplanation(this)">▾ Show Explanation</button>
+          <button class="explanation-toggle" onclick="toggleExp(this)">&#9660; Show Explanation</button>
           <div class="explanation-box">
-            F2–F3 formant transitions are unnaturally abrupt during vowel-to-consonant coarticulation. The acoustic model does not reproduce the continuous formant movement characteristic of natural vocal tract dynamics. Confidence: <strong style="color:#f0c040">87.4%</strong>
+            Continuous background hiss/buzz interferes with speech clarity. The model detects stationary noise floor elevation in frequency bands above 6 kHz, a typical artefact of vocoder quantization.
+          </div>
+        </div>
+
+        <div class="sample-card">
+          <div class="sample-meta">
+            <span class="subcategory-badge badge-signal">Impulse Noise (Click / Pop / Thud / Buzz)</span>
+            <span class="sample-id">SIG-002</span>
+          </div>
+          <div class="prompt-label">Prompt</div>
+          <p class="prompt-text">"Please turn off the lights when you leave."</p>
+          <div class="audio-row">
+            <div class="audio-row-label"><span class="chip chip-real">Bonafide</span></div>
+            <audio controls><source src="audios/signal/sig002_real.wav" type="audio/wav">Your browser does not support audio.</audio>
+          </div>
+          <div class="audio-row">
+            <div class="audio-row-label"><span class="chip chip-spoof">Spoof</span></div>
+            <audio controls><source src="audios/signal/sig002_spoof.wav" type="audio/wav">Your browser does not support audio.</audio>
+          </div>
+          <button class="explanation-toggle" onclick="toggleExp(this)">&#9660; Show Explanation</button>
+          <div class="explanation-box">
+            Short, sudden burst-like clicks appear at irregular intervals. The model identifies transient energy spikes inconsistent with phoneme boundaries, a hallmark of autoregressive neural codec decoding errors.
           </div>
         </div>
 
       </div>
     </div>
 
-    <!-- ── Glottal ── -->
-    <div class="artefact-panel artefact-glottal" id="panel-glottal">
+    <!-- SPECTRAL / VOICE-QUALITY -->
+    <div class="artefact-panel cat-spectral" id="panel-spectral">
       <div class="samples-grid">
 
         <div class="sample-card">
           <div class="sample-meta">
-            <span class="artefact-badge badge-glottal">Glottal</span>
-            <span class="sample-id">G-001</span>
+            <span class="subcategory-badge badge-spectral">Muffled Voice</span>
+            <span class="sample-id">SPC-001</span>
           </div>
-          <p class="prompt-text">"The sun rises in the east every morning."</p>
-          <div class="audio-labels">
-            <span class="audio-label"><span class="label-chip chip-real">Bonafide</span></span>
+          <div class="prompt-label">Prompt</div>
+          <p class="prompt-text">"Can you hear me clearly from there?"</p>
+          <div class="audio-row">
+            <div class="audio-row-label"><span class="chip chip-real">Bonafide</span></div>
+            <audio controls><source src="audios/spectral/spc001_real.wav" type="audio/wav">Your browser does not support audio.</audio>
           </div>
-          <div class="audio-wrap">
-            <audio controls><source src="audios/glottal/g001_real.wav" type="audio/wav">Your browser does not support audio.</audio>
+          <div class="audio-row">
+            <div class="audio-row-label"><span class="chip chip-spoof">Spoof</span></div>
+            <audio controls><source src="audios/spectral/spc001_spoof.wav" type="audio/wav">Your browser does not support audio.</audio>
           </div>
-          <div class="audio-labels" style="margin-top:10px;">
-            <span class="audio-label"><span class="label-chip chip-spoof">Spoof</span></span>
-          </div>
-          <div class="audio-wrap">
-            <audio controls><source src="audios/glottal/g001_spoof.wav" type="audio/wav">Your browser does not support audio.</audio>
-          </div>
-          <button class="explanation-toggle" onclick="toggleExplanation(this)">▾ Show Explanation</button>
+          <button class="explanation-toggle" onclick="toggleExp(this)">&#9660; Show Explanation</button>
           <div class="explanation-box">
-            Missing glottal pulse irregularity (jitter &amp; shimmer). Synthesised glottal waveform is overly periodic; human voices exhibit natural cycle-to-cycle variation (jitter ~0.5–1%) absent here. Confidence: <strong style="color:#c084fc">90.8%</strong>
+            Voice sounds suppressed, giving the impression of a covered or distant speaker. Significant high-frequency attenuation above 4 kHz detected, consistent with low-pass filtering introduced by certain neural vocoders.
+          </div>
+        </div>
+
+        <div class="sample-card">
+          <div class="sample-meta">
+            <span class="subcategory-badge badge-spectral">Unnatural Voice Timbre</span>
+            <span class="sample-id">SPC-002</span>
+          </div>
+          <div class="prompt-label">Prompt</div>
+          <p class="prompt-text">"The stars are bright tonight."</p>
+          <div class="audio-row">
+            <div class="audio-row-label"><span class="chip chip-real">Bonafide</span></div>
+            <audio controls><source src="audios/spectral/spc002_real.wav" type="audio/wav">Your browser does not support audio.</audio>
+          </div>
+          <div class="audio-row">
+            <div class="audio-row-label"><span class="chip chip-spoof">Spoof</span></div>
+            <audio controls><source src="audios/spectral/spc002_spoof.wav" type="audio/wav">Your browser does not support audio.</audio>
+          </div>
+          <button class="explanation-toggle" onclick="toggleExp(this)">&#9660; Show Explanation</button>
+          <div class="explanation-box">
+            Voice texture is mechanical and overly sharp. Harmonic-to-noise ratio is unnaturally high, and the spectral envelope shows regularised harmonics inconsistent with human vocal fold vibration.
+          </div>
+        </div>
+
+        <div class="sample-card">
+          <div class="sample-meta">
+            <span class="subcategory-badge badge-spectral">Distorted / Wobbly Voice</span>
+            <span class="sample-id">SPC-003</span>
+          </div>
+          <div class="prompt-label">Prompt</div>
+          <p class="prompt-text">"Everything is going to be just fine."</p>
+          <div class="audio-row">
+            <div class="audio-row-label"><span class="chip chip-real">Bonafide</span></div>
+            <audio controls><source src="audios/spectral/spc003_real.wav" type="audio/wav">Your browser does not support audio.</audio>
+          </div>
+          <div class="audio-row">
+            <div class="audio-row-label"><span class="chip chip-spoof">Spoof</span></div>
+            <audio controls><source src="audios/spectral/spc003_spoof.wav" type="audio/wav">Your browser does not support audio.</audio>
+          </div>
+          <button class="explanation-toggle" onclick="toggleExp(this)">&#9660; Show Explanation</button>
+          <div class="explanation-box">
+            Voice is stretched, distorted, or shaky/unstable. Periodic F0 modulation inconsistent with natural vibrato detected, a characteristic wobble introduced by phase reconstruction errors in GAN-based vocoders.
           </div>
         </div>
 
       </div>
     </div>
 
-  </section>
-
-  <!-- Upload placeholder -->
-  <section class="section">
-    <div class="section-label">Contribute</div>
-    <div class="section-title">Upload Your Own Sample</div>
-    <p class="section-desc">Try the detector on your own audio — upload a .wav or .mp3 file below.</p>
-    <div class="upload-section">
-      <div class="upload-icon">🎙</div>
-      <p>Audio upload & live demo coming soon.<br>For now, replace the placeholder <code style="color:var(--accent3)">src</code> paths above with your actual audio files.</p>
-      <a class="btn btn-outline" href="#">Learn how to add files →</a>
-    </div>
   </section>
 
 </main>
 
-<!-- ══════════════ FOOTER ══════════════ -->
 <footer>
-  <p>© 2026 · Submitted to <a href="#">IJCB 2026</a></p>
-  <p style="margin-top:6px; font-size:11px; opacity:.5;"></p>
+  <p>Anonymous Submission &middot; Under Review at IJCB 2026</p>
 </footer>
 
 <script>
-  // Tab switching
-  const tabs = document.querySelectorAll('.tab');
-  tabs.forEach(tab => {
+  document.querySelectorAll('.tab').forEach(tab => {
     tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       document.querySelectorAll('.artefact-panel').forEach(p => p.classList.remove('active'));
       tab.classList.add('active');
-      document.getElementById('panel-' + tab.dataset.panel).classList.add('active');
+      document.getElementById('panel-' + tab.dataset.cat).classList.add('active');
     });
   });
-
-  // Explanation toggle
-  function toggleExplanation(btn) {
+  function toggleExp(btn) {
     const box = btn.nextElementSibling;
     const open = box.classList.toggle('open');
-    btn.textContent = (open ? '▴ Hide' : '▾ Show') + ' Explanation';
+    btn.innerHTML = (open ? '&#9650; Hide' : '&#9660; Show') + ' Explanation';
   }
 </script>
 </body>
